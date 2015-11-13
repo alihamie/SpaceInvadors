@@ -1,2 +1,2 @@
-# SpaceInvadors
+# SpaceInvaders
 Java Implemented SpaceInvadors 
