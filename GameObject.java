@@ -17,10 +17,16 @@ public abstract class GameObject
 
 	private ImageIcon sprite;
 	private String name;
+	
 
 
 
-	public abstract void draw(Graphics g,int x,int y);
+	public abstract void draw(Graphics g);
+	public abstract void move(int dx);
+	public abstract void moveDown(int dy);
+	//public abstract void shoot(Graphics g);
+	public abstract int getX();
+	public abstract Bullet getBullet();
 
 	public GameObject(String name,ImageIcon sprite)
 	{
