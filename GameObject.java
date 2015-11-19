@@ -5,20 +5,22 @@
 	and different players
 
 *******************************/
+import com.sun.javafx.collections.MappingChange;
+
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 public abstract class GameObject
 {
+	public enum Type {SHOOTER, ENEMY, BARRIER, BULLET};
 
 	//so far only have sprite and a name 
 	//would be better to use ENUM for different
 	//types of enemies
 
 	private ImageIcon sprite;
-	private String name;
+	private Type type;
 	
-
 
 	public abstract Rectangle getBounds();
 	public abstract void draw(Graphics g);
@@ -28,28 +30,17 @@ public abstract class GameObject
 	public abstract int getX();
 	public abstract Bullet getBullet();
 
-	public GameObject(String name,ImageIcon sprite)
+	public GameObject(Type type, ImageIcon sprite)
 	{
-
-		this.sprite =sprite;
-		this.name = name;
-
-
+		this.sprite = sprite;
+		this.type = type;
 	}
 
 
 	public ImageIcon getSprite()
 	{
-
 		return this.sprite;
 
 	}
-
-
-
-
-
-
-
 
 }

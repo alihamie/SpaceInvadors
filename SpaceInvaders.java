@@ -24,42 +24,35 @@ public class SpaceInvaders
 
 		init_invaders(enemies);
 	
-		//regural JFrame procedure
+		//regular JFrame procedure
 		JFrame frame = new JFrame("Space Invaders");
-		frame.setBackground(Color.BLACK);
-		GamePanel game = new GamePanel(enemies);
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.setSize(900, 500 ); // set frame size
+
+		frame.setSize(900, 500); // set frame size
+		frame.setBackground(Color.BLACK);
+
+		GamePanel game = new GamePanel(enemies);
 		frame.add(game);
-      		frame.setVisible( true ); // display frame
 
-
-
+		frame.setVisible( true ); // display frame
 
 	}
 
-	public static void init_invaders(ArrayList<ArrayList<GameObject>>  enemies )
-	{
+	public static void init_invaders(ArrayList<ArrayList<GameObject>>  enemies ) {
 
-	
-		
-		//initializes them "BasicInvader" is a type of enemy
-		int v_distance = Sprites.ENEMY.getIconHeight() ;
-		for(int i = 0; i < ROW ; ++i)
-		{
-			enemies.add(new ArrayList<GameObject> () );
+		//initializes them "Invader" is a type of enemy
+		int v_distance = Sprites.ENEMY.getIconHeight();
+		for (int i = 0; i < ROW; ++i) {
+			enemies.add(new ArrayList<GameObject>());
 			int h_distance = Sprites.ENEMY.getIconWidth();
-			for(int j  =0 ; j < COL; ++j)
-			{
-				enemies.get(i).add(new BasicInvader(h_distance,v_distance) ) ;
-				
-				h_distance+= Sprites.ENEMY.getIconWidth();
+			for (int j = 0; j < COL; ++j) {
+				enemies.get(i).add(new Invader(Invader.Version.SMALL, h_distance, v_distance));
+
+				h_distance += Sprites.ENEMY.getIconWidth();
 			}
 			v_distance += Sprites.ENEMY.getIconHeight();
 		}
 
-
-		
 	}
 
 
