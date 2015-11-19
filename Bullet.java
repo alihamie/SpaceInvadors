@@ -3,25 +3,25 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-public class Bullet
+public class Bullet extends GameObject
 {
-	enum SOURCE {SHOOTER, ENEMY}; // Enumeration of sources for bullet (allows for enemy bullets to pass by other enemies)
+	enum Source {SHOOTER, ENEMY}; // Enumeration of sources for bullet (allows for enemy bullets to pass by other enemies)
 
 
 	private int width;
 	private int height;
-	private int x;
-	private int y;
 	private Color color = new Color(252, 252, 252); // Almost pure white (as used in the arcade game)
-	private SOURCE source;
+	private Source source;
 
 
-	public Bullet(int x,int y,int width,int height)
+	public Bullet(int x,int y,int width,int height, Source source)
 	{
+		super(Type.BULLET, Sprites.BULLET);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.source = source;
 
 	}
 
@@ -33,23 +33,6 @@ public class Bullet
 
 	}
 
-	public int getY()
-	{
-		return this.y;
-
-	}
-
-	public int getX()
-	{
-		return this.x;
-
-	}
-
-	public void move(int dy)
-	{
-		y+=dy;
-
-	}
 
 	public Rectangle getBounds()
 	{

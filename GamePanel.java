@@ -115,7 +115,7 @@ public class GamePanel extends JPanel implements ActionListener
 	{
 		for(int i = 0; i < bullets.size() ; ++i)
 		{	
-			bullets.get(i).move(3);
+			bullets.get(i).moveDown(3);
 		}
 
 		for(int i = 0; i < bullets.size() ; ++i)
@@ -150,7 +150,7 @@ public class GamePanel extends JPanel implements ActionListener
 
 		int size = enemies.get(0).size();
 
-		if( enemies.get(0).get(size-1).getX() > getWidth() - Sprites.WIDTH ) 
+		if( enemies.get(0).get(size-1).getX() > getWidth() - Invader.TOTAL_WIDTH )
 		{	
 			dx = -2;
 			moveDown(enemies,15);
@@ -176,7 +176,7 @@ public class GamePanel extends JPanel implements ActionListener
 			for(int j = 0; j < enemies.get(i).size() ; ++j )
 			{
 
-				enemies.get(i).get(j).move(dx);
+				enemies.get(i).get(j).moveX(dx);
 
 			}
 
@@ -216,8 +216,10 @@ public class GamePanel extends JPanel implements ActionListener
 
 				for(int j = 0; j < enemies.get(i).size(); ++j)
 				{
-					if(bullets.get(k).getBounds().intersects(enemies.get(i).get(j).getBounds() ) )
-					System.out.printf("HIT!");//	enemies.get(i).remove(j);
+					if(bullets.get(k).getBounds().intersects(enemies.get(i).get(j).getBounds() ) ) {
+						System.out.printf("HIT!");
+						//enemies.get(i).remove(j);
+					}
 
 
 				}

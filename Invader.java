@@ -13,8 +13,10 @@ public class Invader extends GameObject
     //stores values of how big we want each invader to be
     public static final int HEIGHT  = 30;
     public static final int WIDTH   = 30;
-    private int x;
-    private int y;
+    public static final int HEIGHT_PAD  = 10;
+    public static final int WIDTH_PAD   = 10;
+    public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD;
+    public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD;
 
 
     Invader(Version version, int x, int y)
@@ -27,17 +29,6 @@ public class Invader extends GameObject
         this.version = version;
     }
 
-
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY()
-    {
-        return this.y;
-    }
-
-
     //to be drawn gets the image from base class
     public void draw(Graphics g)
     {
@@ -45,30 +36,9 @@ public class Invader extends GameObject
     }
 
 
-    public int moveX(int dx)
-    {
-        x += dx;
-        return x;
-    }
-
-    public int moveY(int dy)
-    {
-        y += dy;
-        return y;
-    }
-
-    public void move(int dx)
-    {
-        moveX(dx);
-    }
-    public void moveDown(int dy)
-    {
-        moveY(dy);
-    }
-
     public Bullet getBullet()
     {
-        return new Bullet(x,y,3,6);
+        return new Bullet(x, y, 3, 6, Bullet.Source.ENEMY);
     }
 
     public Rectangle getBounds()

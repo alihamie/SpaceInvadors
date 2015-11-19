@@ -19,8 +19,6 @@ public abstract class Sprites
 	public static final ImageIcon SHOOTER = new ImageIcon(Sprites.class.getResource("/sprites/shooter.png"));
 	public static final ImageIcon BULLET = new ImageIcon(Sprites.class.getResource("/sprites/bullet.png"));
 	public static final ImageIcon DESTROYED = new ImageIcon(Sprites.class.getResource("/sprites/destroyed.png"));
-	public static final ImageIcon ENEMY = new ImageIcon(Sprites.class.getResource("/sprites/enemy.png"));
-	public static final int WIDTH = ENEMY.getIconWidth();
 
 
 }

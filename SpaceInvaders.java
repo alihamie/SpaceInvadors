@@ -14,7 +14,7 @@ public class SpaceInvaders
 {
 
 	//how many invaders in the grid
-	public static int ROW = 1;
+	public static int ROW = 3;
 	public static int COL = 10;
 
 	public static void main(String[] args)
@@ -41,16 +41,16 @@ public class SpaceInvaders
 	public static void init_invaders(ArrayList<ArrayList<GameObject>>  enemies ) {
 
 		//initializes them "Invader" is a type of enemy
-		int v_distance = Sprites.ENEMY.getIconHeight();
+		int v_distance = Invader.TOTAL_HEIGHT;
 		for (int i = 0; i < ROW; ++i) {
 			enemies.add(new ArrayList<GameObject>());
-			int h_distance = Sprites.ENEMY.getIconWidth();
+			int h_distance = Invader.TOTAL_WIDTH;
 			for (int j = 0; j < COL; ++j) {
-				enemies.get(i).add(new Invader(Invader.Version.SMALL, h_distance, v_distance));
+				enemies.get(i).add(new Invader(Invader.Version.MEDIUM, h_distance, v_distance));
 
-				h_distance += Sprites.ENEMY.getIconWidth();
+				h_distance += Invader.TOTAL_WIDTH;
 			}
-			v_distance += Sprites.ENEMY.getIconHeight();
+			v_distance += Invader.TOTAL_HEIGHT;
 		}
 
 	}
