@@ -7,7 +7,7 @@
 *******************************/
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
-
+import java.awt.Rectangle;
 public abstract class GameObject
 {
 
@@ -20,7 +20,7 @@ public abstract class GameObject
 	
 
 
-
+	public abstract Rectangle getBounds();
 	public abstract void draw(Graphics g);
 	public abstract void move(int dx);
 	public abstract void moveDown(int dy);

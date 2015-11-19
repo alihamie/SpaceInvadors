@@ -14,7 +14,7 @@ public class SpaceInvaders
 {
 
 	//how many invaders in the grid
-	public static int ROW = 4;
+	public static int ROW = 1;
 	public static int COL = 10;
 
 	public static void main(String[] args)

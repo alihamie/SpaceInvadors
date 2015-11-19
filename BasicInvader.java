@@ -10,7 +10,7 @@
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
 import java.awt.Color;
-
+import java.awt.Rectangle;
 public class BasicInvader extends GameObject
 {
 
@@ -19,7 +19,7 @@ public class BasicInvader extends GameObject
 	public static final int WIDTH   = 30;
 	private int x;
 	private int y;
-	private Bullet bullet;
+	
 
 	//calls base class and sets with its type and the sprite
 	public BasicInvader(int x, int y)
@@ -27,7 +27,7 @@ public class BasicInvader extends GameObject
 		super("basic",Sprites.ENEMY);
 		this.x = x;
 		this.y = y;
-		bullet = new Bullet(x,y,3,6);
+		
 
 	}
 
@@ -68,7 +68,13 @@ public class BasicInvader extends GameObject
 	public Bullet getBullet()
 	{
 
-		return bullet;
+		return new Bullet(x,y,3,6);
+
+	}
+
+	public Rectangle getBounds()
+	{
+		return new Rectangle(x,y,WIDTH,HEIGHT);
 
 	}
 

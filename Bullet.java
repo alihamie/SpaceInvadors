@@ -1,7 +1,7 @@
 
 import java.awt.Graphics;
 import java.awt.Color;
-
+import java.awt.Rectangle;
 
 public class Bullet
 {
@@ -31,7 +31,7 @@ public class Bullet
 
 	public void draw(Graphics g)
 	{
-		g.drawRect(x,y,width,height);
+		g.fillRect(x,y,width,height);
 
 
 	}
@@ -50,6 +50,12 @@ public class Bullet
 	public void move(int dy)
 	{
 		y+=dy;		
+
+	}
+
+	public Rectangle getBounds()
+	{
+		return new Rectangle(x,y,width,height);
 
 	}
 

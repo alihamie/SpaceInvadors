@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements ActionListener
 		move();
 		
 		moveBullets(g);
+		checkCollision();
 
 	}
 
@@ -94,11 +95,19 @@ public class GamePanel extends JPanel implements ActionListener
 	public void randomShoot(ArrayList<ArrayList<GameObject>> enemies)
 	{
 		Random rand = new Random();
-		int i = rand.nextInt(enemies.size() -1);
-		int j = rand.nextInt(enemies.get(i).size() -1);
-
-		bullets.add( enemies.get(3).get(j).getBullet() );
-
+		int i = rand.nextInt(enemies.size() );
+		
+		if(enemies.size() > 1 )
+		{
+			
+			int j = rand.nextInt(enemies.get(i).size() );
+			bullets.add( enemies.get(i).get(j).getBullet() );
+		}
+		else {
+			
+			int j = rand.nextInt(enemies.get(0).size() );
+			bullets.add( enemies.get(0).get(j).getBullet() );
+		     }
 
 	}
 
@@ -196,4 +205,26 @@ public class GamePanel extends JPanel implements ActionListener
 		
 
 	}
+
+
+	public void checkCollision()
+	{
+		for(int k = 0; k < bullets.size() ; ++k )
+		{
+			for(int i = 0; i < enemies.size(); ++i)
+			{
+
+				for(int j = 0; j < enemies.get(i).size(); ++j)
+				{
+					if(bullets.get(k).getBounds().intersects(enemies.get(i).get(j).getBounds() ) )
+					System.out.printf("HIT!");//	enemies.get(i).remove(j);
+
+
+				}
+
+			}
+
+	}
+
+		}
 }
