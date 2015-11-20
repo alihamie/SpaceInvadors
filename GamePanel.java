@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.awt.Image;
 import javax.swing.Timer;
 import java.awt.event.*;
+import java.awt.*;
 
 public class GamePanel extends JPanel implements ActionListener
 {
@@ -34,8 +35,7 @@ public class GamePanel extends JPanel implements ActionListener
 	 private int dx = 2;
 	 private Container container;
 	 private ArrayList<Bullet> bullets ;
-	ArrayList<ArrayList<GameObject>>  enemies;
-
+	 ArrayList<ArrayList<GameObject>>  enemies;
 	public GamePanel(ArrayList<ArrayList<GameObject>> enemies)
 	{
 		//this works same way as clone() 
@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements ActionListener
 		shoot_timer = new Timer(1000,this);
 		shoot_timer.start();
 		timer.start();		// start the timer
+		
 	}
 
 
@@ -65,15 +66,12 @@ public class GamePanel extends JPanel implements ActionListener
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-	
 		//calls the draw function of the gameObjects
 		drawInvaders(g);
-		
-		
 		move();
-		
 		moveBullets(g);
 		checkCollision();
+		
 
 	}
 
@@ -134,7 +132,7 @@ public class GamePanel extends JPanel implements ActionListener
 			
 			for(int j = 0; j < enemies.get(i).size() ; ++j)
 			{
-				
+
 				enemies.get(i).get(j).draw(g);
 				
 			}
@@ -149,7 +147,7 @@ public class GamePanel extends JPanel implements ActionListener
 	{
 
 		int size = enemies.get(0).size();
-
+		
 		if( enemies.get(0).get(size-1).getX() > getWidth() - Invader.TOTAL_WIDTH )
 		{	
 			dx = -2;
@@ -216,7 +214,10 @@ public class GamePanel extends JPanel implements ActionListener
 
 				for(int j = 0; j < enemies.get(i).size(); ++j)
 				{
-					if(bullets.get(k).getBounds().intersects(enemies.get(i).get(j).getBounds() ) ) {
+					Rectangle enemy_rect = enemies.get(i).get(j).getBounds();
+					Rectangle bullet_rect = bullets.get(k).getBounds();
+
+					if(bullet_rect.intersects( enemy_rect )  ) {
 						System.out.printf("HIT!");
 						//enemies.get(i).remove(j);
 					}

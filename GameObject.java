@@ -5,11 +5,12 @@
 	and different players
 
 *******************************/
-import com.sun.javafx.collections.MappingChange;
+//import com.sun.javafx.collections.MappingChange;
 
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
 public abstract class GameObject
 {
 	public enum Type {SHOOTER, ENEMY, BARRIER, BULLET};

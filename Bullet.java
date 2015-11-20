@@ -40,5 +40,11 @@ public class Bullet extends GameObject
 
 	}
 
+	public Source getSource()
+	{
+		return source;
+	
+	}
+
 
 }

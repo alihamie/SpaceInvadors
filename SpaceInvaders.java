@@ -30,7 +30,6 @@ public class SpaceInvaders
 
 		frame.setSize(900, 500); // set frame size
 		frame.setBackground(Color.BLACK);
-
 		GamePanel game = new GamePanel(enemies);
 		frame.add(game);
 
