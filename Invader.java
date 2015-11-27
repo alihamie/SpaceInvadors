@@ -6,7 +6,7 @@ import java.awt.*;
  */
 public class Invader extends GameObject
 {
-    public enum Version {SMALL, MEDIUM, LARGE};
+    public enum Version {SMALL, MEDIUM, LARGE}
 
     private Version version;
 
@@ -15,8 +15,8 @@ public class Invader extends GameObject
     public static final int WIDTH   = 30;
     public static final int HEIGHT_PAD  = 10;
     public static final int WIDTH_PAD   = 10;
-    public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD;
-    public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD;
+    public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD * 2;
+    public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD * 2;
 
 
     Invader(Version version, int x, int y)
@@ -38,7 +38,11 @@ public class Invader extends GameObject
 
     public Bullet getBullet()
     {
-        return new Bullet(x, y, 3, 6, Bullet.Source.ENEMY);
+        return new Bullet(x + WIDTH / 2, y + HEIGHT / 2, 3, 6, Bullet.Source.ENEMY);
+    }
+    public boolean hitByBullet(Bullet bullet)
+    {
+        return getBounds().intersects(bullet.getBounds());
     }
 
     public Rectangle getBounds()
