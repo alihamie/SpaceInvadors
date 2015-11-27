@@ -13,7 +13,7 @@ import java.awt.Rectangle;
 
 public abstract class GameObject
 {
-	public enum Type {SHOOTER, ENEMY, BARRIER, BULLET};
+	public enum Type {PLAYER, ENEMY, BARRIER, BULLET}
 
 	//so far only have sprite and a name 
 	//would be better to use ENUM for different
@@ -28,11 +28,6 @@ public abstract class GameObject
 	public abstract Rectangle getBounds();
 	public abstract void draw(Graphics g);
 	//public abstract void shoot(Graphics g);
-
-	// Quick fix for abstracting bullet and GameObject
-	public Bullet getBullet() {
-		return null;
-	};
 
 	public GameObject(Type type, ImageIcon sprite)
 	{

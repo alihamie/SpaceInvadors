@@ -6,25 +6,20 @@ import java.awt.*;
  */
 public class Player extends GameObject
 {
-    public enum Version {SMALL, MEDIUM, LARGE};
-
-    private Version version;
-
     //stores values of how big we want each invader to be
     public static final int HEIGHT  = 30;
     public static final int WIDTH   = 30;
-    public static final int HEIGHT_PAD  = 10;
-    public static final int WIDTH_PAD   = 10;
+    public static final int HEIGHT_PAD  = 5;
+    public static final int WIDTH_PAD   = 5;
     public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD;
     public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD;
 
 
     Player()
     {
-        super(GameObject.Type.SHOOTER, Sprites.SHOOTER);
-	this.x = 0;
-	this.y = 0;
-       // this.version = version;
+        super(GameObject.Type.PLAYER, Sprites.PLAYER);
+        this.x = 0;
+        this.y = 0;
     }
 
     //to be drawn gets the image from base class
@@ -37,7 +32,7 @@ public class Player extends GameObject
 
     public Bullet getBullet()
     {
-        return new Bullet(x, y, 3, 6, Bullet.Source.SHOOTER);
+        return new Bullet(x, y, 3, 6, Bullet.Source.PLAYER);
     }
 
     public Rectangle getBounds()

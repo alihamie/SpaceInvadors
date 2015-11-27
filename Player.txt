@@ -21,7 +21,7 @@ public class Player extends GameObject
 
     Player( int x, int y)
     {
-        super(GameObject.Type.SHOOTER, Sprites.SHOOTER);
+        super(PLAYER, PLAYER);
         this.x = x;
         this.y = y;
        // this.version = version;
@@ -36,7 +36,7 @@ public class Player extends GameObject
 
     public Bullet getBullet()
     {
-        return new Bullet(x, y, 3, 6, Bullet.Source.SHOOTER);
+        return new Bullet(x, y, 3, 6, PLAYER);
     }
 
     public Rectangle getBounds()

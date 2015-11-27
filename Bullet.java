@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 public class Bullet extends GameObject
 {
-	enum Source {SHOOTER, ENEMY}; // Enumeration of sources for bullet (allows for enemy bullets to pass by other enemies)
+	enum Source {PLAYER, ENEMY} // Enumeration of sources for bullet (allows for enemy bullets to pass by other enemies)
 
 
 	private int width;
@@ -14,36 +14,29 @@ public class Bullet extends GameObject
 	private Source source;
 
 
-	public Bullet(int x,int y,int width,int height, Source source)
-	{
+	public Bullet(int x, int y, int width, int height, Source source) {
 		super(Type.BULLET, Sprites.BULLET);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.source = source;
-
 	}
 
 
-	public void draw(Graphics g)
-	{
+	public void draw(Graphics g) {
 		// g.setColor(color);
+		g.setColor(Color.BLACK);
 		g.fillRect(x,y,width,height);
-
 	}
 
 
-	public Rectangle getBounds()
-	{
+	public Rectangle getBounds() {
 		return new Rectangle(x,y,width,height);
-
 	}
 
-	public Source getSource()
-	{
+	public Source getSource() {
 		return source;
-	
 	}
 
 
