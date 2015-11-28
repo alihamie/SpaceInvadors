@@ -13,8 +13,8 @@ public class Invader extends GameObject
     //stores values of how big we want each invader to be
     public static final int HEIGHT  = 30;
     public static final int WIDTH   = 30;
-    public static final int HEIGHT_PAD  = 10;
-    public static final int WIDTH_PAD   = 10;
+    public static final int HEIGHT_PAD  = 5;
+    public static final int WIDTH_PAD   = 5;
     public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD * 2;
     public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD * 2;
 
@@ -42,7 +42,7 @@ public class Invader extends GameObject
     }
     public boolean hitByBullet(Bullet bullet)
     {
-        return getBounds().intersects(bullet.getBounds());
+        return bullet.getSource() == Bullet.Source.PLAYER && getBounds().intersects(bullet.getBounds());
     }
 
     public Rectangle getBounds()
