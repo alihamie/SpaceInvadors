@@ -17,35 +17,28 @@ public class Player extends GameObject
 
     Player() {
         super(GameObject.Type.PLAYER, Sprites.PLAYER);
-        this.x = 0;
-        this.y = 0;
+        setLocation(0, 0);
+        setSize(WIDTH, HEIGHT);
     }
 
     Player(int x, int y) {
         super(GameObject.Type.PLAYER, Sprites.PLAYER);
-        this.x = x;
-        this.y = y;
+        setLocation(x, y);
+        setSize(WIDTH, HEIGHT);
     }
 
     //to be drawn gets the image from base class
     public void draw(Graphics g)
     {
-        g.drawImage(super.getSprite().getImage(), x, y, WIDTH, HEIGHT, null);
+        g.drawImage(super.getSprite().getImage(), getX(), getY(), WIDTH, HEIGHT, null);
     }
 
 
-    public Bullet getBullet()
-    {
-        return new Bullet(x + WIDTH / 2, y, 3, 6, Bullet.Source.PLAYER);
+    public Bullet getBullet() {
+        return new Bullet(getX() + WIDTH / 2 - 1, getY(), 3, 6, Bullet.Source.PLAYER);
     }
-    public boolean hitByBullet(Bullet bullet)
-    {
+    public boolean hitByBullet(Bullet bullet) {
         return bullet.getSource() == Bullet.Source.ENEMY && getBounds().intersects(bullet.getBounds());
-    }
-
-    public Rectangle getBounds()
-    {
-        return new Rectangle(x,y,WIDTH,HEIGHT);
     }
 
 }
