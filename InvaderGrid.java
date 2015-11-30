@@ -32,7 +32,7 @@ public class InvaderGrid extends Component {
     private void initialize_grid() {
         int v_distance = 0;
         for (int i = 0; i < rows; ++i) {
-            invaders.add(new ArrayList<>());
+            invaders.add(new ArrayList<Invader>());
             int h_distance = 0;
 
             v_distance += Invader.HEIGHT_PAD;
