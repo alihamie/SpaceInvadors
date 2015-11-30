@@ -19,11 +19,11 @@ public class Player extends GameObject
     public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD;
 
 
-    Player()
+    Player(int x , int y )
     {
         super(GameObject.Type.SHOOTER, Sprites.SHOOTER);
-	this.x = 0;
-	this.y = 0;
+	this.x = x;
+	this.y = y;
        // this.version = version;
     }
 

@@ -25,6 +25,7 @@ import java.awt.Image;
 import javax.swing.Timer;
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.Component;
 
 public class GamePanel extends JPanel implements ActionListener
 {
@@ -34,8 +35,10 @@ public class GamePanel extends JPanel implements ActionListener
 	 protected Timer shoot_timer; //timer to shoot
 	 private int dx = 2;
 	 private Container container;
+	 private Player player;
 	 private ArrayList<Bullet> bullets ;
 	 ArrayList<ArrayList<GameObject>>  enemies;
+	 boolean initialize = false;
 	public GamePanel(ArrayList<ArrayList<GameObject>> enemies)
 	{
 		//this works same way as clone() 
@@ -67,13 +70,48 @@ public class GamePanel extends JPanel implements ActionListener
 	{
 		super.paintComponent(g);
 		//calls the draw function of the gameObjects
+		if(!initialize)
+		init_player();
+
 		drawInvaders(g);
 		move();
 		moveBullets(g);
 		checkCollision();
-		
+		player.draw(g);
 
 	}
+
+
+	public void init_player()
+	{
+		player = new Player(getWidth()/2 , getHeight() - Player.HEIGHT );
+		initialize = true;
+
+	}
+
+	/**
+	
+			public void keyPressed(KeyEvent key)
+			{
+				System.out.printf("hello");
+
+			}
+
+			public void keyReleased(KeyEvent key)
+			{
+				System.out.printf("released");
+			}
+
+			public void keyTyped(KeyEvent key)
+			{
+
+				System.out.printf("typed");
+			}
+
+
+		**/
+
+	
 
 
 	public void destroyBullets()
