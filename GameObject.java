@@ -30,6 +30,10 @@ public abstract class GameObject extends Component
 	{
 		return sprite;
 	}
+	public void setSprite(ImageIcon sprite)
+	{
+		this.sprite = sprite;
+	}
 	public Type getType()
 	{
 		return type;

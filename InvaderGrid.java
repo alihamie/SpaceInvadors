@@ -4,13 +4,16 @@ import java.util.Random;
 
 public class InvaderGrid extends Component {
     public static int DEFAULT_ROWS = 5, DEFAULT_COLUMNS = 11;
-    public static int DEFAULT_DX = 2, DEFAULT_DY = Invader.HEIGHT;
+    public static int DEFAULT_DX = 20, DEFAULT_DY = Invader.HEIGHT;
 
     private ArrayList<ArrayList<Invader>> invaders = new ArrayList<>();
     private int rows = DEFAULT_ROWS;
     private int columns = DEFAULT_COLUMNS;
     private int dx = DEFAULT_DX;
     private int dy = DEFAULT_DY;
+    private boolean moved_down = false; // Used if checking if already moved down in previous movement
+
+    private int kill_count = 0;
 
     public InvaderGrid() {
         this(DEFAULT_ROWS, DEFAULT_COLUMNS, DEFAULT_DX, DEFAULT_DY);
@@ -40,11 +43,11 @@ public class InvaderGrid extends Component {
                 h_distance += Invader.WIDTH_PAD;
                 Invader.Version version;
                 if (i < 1) {
-                    version = Invader.Version.LARGE;
+                    version = Invader.Version.SMALL;
                 } else if (i < 3) {
                     version = Invader.Version.MEDIUM;
                 } else {
-                    version = Invader.Version.SMALL;
+                    version = Invader.Version.LARGE;
                 }
                 invaders.get(i).add(new Invader(version, h_distance, v_distance));
                 h_distance += Invader.WIDTH + Invader.WIDTH_PAD;
@@ -59,17 +62,23 @@ public class InvaderGrid extends Component {
      * @param max_right Right-most location permissible to perform the movement
      */
     public void performMovement(int max_left, int max_right) {
-       boolean move_down = checkMoveDown(max_left, max_right);
-       dx = move_down ? -dx : dx;
+        boolean move_down = (getLeftBound() < max_left || getRightBound() > max_right) && !moved_down;
+        moved_down = move_down;
+        dx = move_down ? -dx : dx;
 
-       for (int i = 0; i < invaders.size(); i++) {
-           for (int j = 0; j < invaders.get(i).size(); j++) {
-               if (move_down) {
-                   invaders.get(i).get(j).moveDown(dy);
-               }
-               invaders.get(i).get(j).moveX(dx);
-           }
-       }
+        Invader current;
+        for (int i = 0; i < invaders.size(); i++) {
+            for (int j = 0; j < invaders.get(i).size(); j++) {
+                current = invaders.get(i).get(j);
+                if (move_down) {
+                    current.moveDown(dy);
+                } else {
+                    current.moveX(dx);
+                }
+                current.toggleSprite();
+            }
+        }
+
     }
 
 
@@ -83,24 +92,21 @@ public class InvaderGrid extends Component {
     }
 
 
-
-    private boolean checkMoveDown(int max_left, int max_right) {
-        return getLeftBound() < max_left || getRightBound() > max_right;
-    }
-
     /**
      * @return Gets the left-most location of the grid
      */
     private int getLeftBound() {
         int result = 0;
+        int current;
         for (int i = 0; i < invaders.size(); i++) {
+            current = invaders.get(i).get(0).getX();
             if (i == 0) {
-                result = invaders.get(i).get(0).getX();
-            } else if (invaders.get(i).get(0).getX() < result) {
-                result = invaders.get(i).get(0).getX();
+                result = current;
+            } else if (current < result) {
+                result = current;
             }
         }
-        return result;
+        return result - Invader.WIDTH_PAD;
     }
 
     /**
@@ -108,34 +114,40 @@ public class InvaderGrid extends Component {
      */
     private int getRightBound() {
         int result = 0;
+        int current;
         for (int i = 0; i < invaders.size(); i++) {
-            int last = invaders.get(i).size() - 1;
+            current = invaders.get(i).get(invaders.get(i).size() - 1).getX();
             if (i == 0) {
-                result = invaders.get(i).get(last).getX();
-            } else if (invaders.get(i).get(last).getX() > result) {
-                result = invaders.get(i).get(last).getX();
+                result = current;
+            } else if (current > result) {
+                result = current;
             }
         }
         return result + Invader.WIDTH + Invader.WIDTH_PAD;
     }
 
 
-
-    public boolean runBulletCollision(Bullet bullet) {
-        boolean hit = false;
+    /**
+     *
+     * @param bullet
+     * @return int Number of points. 0 means no hits. More than 0 is the points of that hit
+     */
+    public int runBulletCollision(Bullet bullet) {
+        int points = 0;
         for (int i = 0; i < invaders.size(); i++) {
             for (int j = 0; j < invaders.get(i).size(); j++) {
                 if (invaders.get(i).get(j).hitByBullet(bullet)) {
-                    hit = true;
+                    points = invaders.get(i).get(j).getPoints();
+                    kill_count++;
                     invaders.get(i).remove(j);
                     break;
                 }
             }
 
             if (invaders.get(i).size() == 0) invaders.remove(i);
-            if (hit) break;
+            if (points > 0) break;
         }
-        return hit;
+        return points;
     }
 
     public Bullet getRandomBullet() {
@@ -149,9 +161,19 @@ public class InvaderGrid extends Component {
 
 
     public boolean isEmpty () {
-        return !(invaders.size() > 0);
+        return invaders.size() == 0;
     }
 
+    public int numInvadersStart() {
+        return rows * columns;
+    }
 
+    public int numInvadersNow() {
+        return (rows * columns) - kill_count;
+    }
+
+    public int numInvadersDestroyed() {
+        return kill_count;
+    }
 
 }
