@@ -8,34 +8,20 @@
 //import com.sun.javafx.collections.MappingChange;
 
 import javax.swing.ImageIcon;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 
-public abstract class GameObject
+public abstract class GameObject extends Component
 {
-	public enum Type {SHOOTER, ENEMY, BARRIER, BULLET};
-
-	//so far only have sprite and a name 
-	//would be better to use ENUM for different
-	//types of enemies
+	public enum Type {PLAYER, ENEMY, BARRIER, BULLET}
 
 	private ImageIcon sprite;
 	private Type type;
-	protected int x;
-	protected int y;
 	
 
-	public abstract Rectangle getBounds();
 	public abstract void draw(Graphics g);
-	//public abstract void shoot(Graphics g);
 
-	// Quick fix for abstracting bullet and GameObject
-	public Bullet getBullet() {
-		return null;
-	};
 
-	public GameObject(Type type, ImageIcon sprite)
-	{
+	public GameObject(Type type, ImageIcon sprite) {
 		this.sprite = sprite;
 		this.type = type;
 	}
@@ -44,52 +30,32 @@ public abstract class GameObject
 	{
 		return sprite;
 	}
-
 	public Type getType()
 	{
 		return type;
 	}
 
 
-
-	public int getX()
-	{
-		return x;
+	public void setX(int x) {
+		setLocation(x, getY());
+	}
+	public void setY(int y) {
+		setLocation(getX(), y);
 	}
 
-	public int getY()
-	{
-		return y;
+	public int moveX(int dx) {
+		setLocation(getX() + dx, getY());
+		return getX();
 	}
-
-	public void setX(int x)
-	{
-		this.x = x;
+	public int moveY(int dy) {
+		setLocation(getX(), getY() + dy);
+		return getY();
 	}
-
-	public void setY(int y)
-	{
-		this.y = y;
-	}
-
-	public int moveX(int dx)
-	{
-		x += dx;
-		return x;
-	}
-
-	public int moveY(int dy)
-	{
-		y += dy;
-		return y;
-	}
-
 
 	public void moveUp(int dy)
 	{
 		moveY(-dy);
 	}
-
 	public void moveDown(int dy)
 	{
 		moveY(dy);
@@ -99,10 +65,8 @@ public abstract class GameObject
 	{
 		moveX(-dx);
 	}
-
 	public void moveRight(int dx)
 	{
 		moveX(dx);
 	}
-
 }

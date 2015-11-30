@@ -6,43 +6,41 @@ import java.awt.*;
  */
 public class Player extends GameObject
 {
-    public enum Version {SMALL, MEDIUM, LARGE};
-
-    private Version version;
-
     //stores values of how big we want each invader to be
     public static final int HEIGHT  = 30;
-    public static final int WIDTH   = 30;
-    public static final int HEIGHT_PAD  = 10;
-    public static final int WIDTH_PAD   = 10;
+    public static final int WIDTH   = 50;
+    public static final int HEIGHT_PAD  = 5;
+    public static final int WIDTH_PAD   = 5;
     public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD;
     public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD;
 
 
-    Player(int x , int y )
-    {
-        super(GameObject.Type.SHOOTER, Sprites.SHOOTER);
-	this.x = x;
-	this.y = y;
-       // this.version = version;
+
+    Player() {
+        super(GameObject.Type.PLAYER, Sprites.PLAYER);
+        setLocation(0, 0);
+        setSize(WIDTH, HEIGHT);
+    }
+
+    Player(int x, int y) {
+        super(GameObject.Type.PLAYER, Sprites.PLAYER);
+        setLocation(x, y);
+        setSize(WIDTH, HEIGHT);
+
     }
 
     //to be drawn gets the image from base class
     public void draw(Graphics g)
     {
-	
-        g.drawImage(super.getSprite().getImage(), x, y, WIDTH, HEIGHT, null);
+        g.drawImage(super.getSprite().getImage(), getX(), getY(), WIDTH, HEIGHT, null);
     }
 
 
-    public Bullet getBullet()
-    {
-        return new Bullet(x, y, 3, 6, Bullet.Source.SHOOTER);
+    public Bullet getBullet() {
+        return new Bullet(getX() + WIDTH / 2 - 1, getY(), 3, 6, Bullet.Source.PLAYER);
     }
-
-    public Rectangle getBounds()
-    {
-        return new Rectangle(x,y,WIDTH,HEIGHT);
+    public boolean hitByBullet(Bullet bullet) {
+        return bullet.getSource() == Bullet.Source.ENEMY && getBounds().intersects(bullet.getBounds());
     }
 
 }
