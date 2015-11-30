@@ -10,12 +10,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
 {
     private Timer paint_timer;
     private Timer invader_shoot_timer;
+    private Timer invader_move_timer;
 
 
     private InvaderGrid invaders;
     private ArrayList<Bullet> bullets;
     private Player player;
-
+    private int score = 0;
 
     private boolean key_left_down = false;
     private boolean key_right_down = false;
@@ -24,11 +25,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
 
     public GamePanel(Dimension size) {
         setSize(size);
+        setBackground(Color.BLACK);
         setFocusable(true);
         addKeyListener(this);
 
+
         invaders = new InvaderGrid();
-        bullets = new ArrayList<Bullet>();
+        bullets = new ArrayList<>();
         player = new Player(getWidth() / 2 - Player.WIDTH / 2, getHeight() * 8 / 10);
 
         // start the timer
@@ -36,15 +39,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         paint_timer.start();
         invader_shoot_timer = new Timer(1000, this);
         invader_shoot_timer.start();
+        invader_move_timer = new Timer(557, this);
+        invader_move_timer.start();
     }
 
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
          if(source == invader_shoot_timer) {
-            bullets.add(invaders.getRandomBullet());
+             bullets.add(invaders.getRandomBullet());
+        } else if (source == invader_move_timer) {
+             invaders.performMovement(0, getWidth());
         } else {
-            repaint();
+             repaint();
         }
     }
 
@@ -85,12 +92,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         checkCollision();
 
         movePlayer();
-        invaders.performMovement(0, getWidth());
         fireBulletPlayer();
 
         if (invaders.isEmpty()) { // no more enemies left
             paint_timer.stop();
             invader_shoot_timer.stop();
+            invader_move_timer.stop();
             System.out.println("\nNo More Enemies!");
         }
     }
@@ -123,7 +130,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
             player.moveLeft(4);
         }
         if (key_right_down && player.getX() + Player.WIDTH + Player.WIDTH_PAD < getWidth()) {
-            player.moveRight(4);
+            player.moveRight(3);
         }
     }
 
@@ -142,10 +149,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
 
 
     private void checkCollision() {
+        int points_added = 0;
         for (int i = 0; i < bullets.size() ; i++ ) {
             // Invaders bullet collisions
-            if (invaders.runBulletCollision(bullets.get(i))) {
-                System.out.print("HIT! ");
+            points_added += invaders.runBulletCollision(bullets.get(i));
+            if (points_added > 0) {
+                score += points_added;
+                invader_move_timer.setDelay(invader_move_timer.getDelay() - 10);
+                System.out.println("HIT! Points awarded: " + points_added + "   Score: " + score);
                 bullets.remove(i);
                 break;
             }
@@ -157,6 +168,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
             }
         }
     }
+
+
 
 
 

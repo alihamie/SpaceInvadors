@@ -21,8 +21,7 @@ public class Bullet extends GameObject
 
 
 	public void draw(Graphics g) {
-		// g.setColor(color);
-		g.setColor(Color.BLACK);
+		g.setColor(color);
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
