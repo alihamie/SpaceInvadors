@@ -28,6 +28,9 @@ public class Bullet extends GameObject
 	public Source getSource() {
 		return source;
 	}
+	public boolean hitByBullet(Bullet bullet) {
+		return getBounds().intersects(bullet.getBounds());
+	}
 
 
 }
