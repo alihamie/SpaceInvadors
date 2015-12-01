@@ -4,14 +4,14 @@ import java.awt.Component;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
-
+import javax.swing.BoxLayout;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener
 {
     private Timer paint_timer;
     private Timer invader_shoot_timer;
     private Timer invader_move_timer;
-
+    private BoxLayout boxlayout;
 
     private InvaderGrid invaders;
     private ArrayList<Bullet> bullets;
@@ -28,8 +28,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         setBackground(Color.BLACK);
         setFocusable(true);
         addKeyListener(this);
-
-
         invaders = new InvaderGrid();
         bullets = new ArrayList<>();
         player = new Player(getWidth() / 2 - Player.WIDTH / 2, getHeight() * 8 / 10);
