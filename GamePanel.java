@@ -3,8 +3,9 @@ import java.awt.*;
 import java.awt.Component;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import java.util.Random;
-import javax.swing.BoxLayout;
+
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener
 {
@@ -16,7 +17,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     private InvaderGrid invaders;
     private ArrayList<Bullet> bullets;
     private Player player;
-    private int score = 0;
+    private int score;
 
     private boolean key_left_down = false;
     private boolean key_right_down = false;
@@ -31,6 +32,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         invaders = new InvaderGrid();
         bullets = new ArrayList<>();
         player = new Player(getWidth() / 2 - Player.WIDTH / 2, getHeight() * 8 / 10);
+        score = 0;
 
         // start the timer
         paint_timer = new Timer(10, this);
@@ -125,7 +127,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     // Move the Player
     private void movePlayer () {
         if (key_left_down && player.getX() > Player.WIDTH_PAD) {
-            player.moveLeft(4);
+            player.moveLeft(3);
         }
         if (key_right_down && player.getX() + Player.WIDTH + Player.WIDTH_PAD < getWidth()) {
             player.moveRight(3);
@@ -168,7 +170,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     }
 
 
-
-
+    public int getScore() {
+        return score;
+    }
 
 }

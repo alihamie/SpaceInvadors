@@ -16,6 +16,7 @@ public abstract class Sprites {
 	public static final ImageIcon LARGE_INVADER_1 = new ImageIcon(Sprites.class.getResource("/sprites/large_invader_1.png"));
 	public static final ImageIcon UFO = new ImageIcon(Sprites.class.getResource("/sprites/ufo.png"));
 	public static final ImageIcon PLAYER = new ImageIcon(Sprites.class.getResource("/sprites/shooter.png"));
+	public static final ImageIcon PLAYER_DESTROYED = new ImageIcon(Sprites.class.getResource("/sprites/shooter_destroyed.png"));
 	public static final ImageIcon BULLET = new ImageIcon(Sprites.class.getResource("/sprites/bullet.png"));
 	public static final ImageIcon DESTROYED = new ImageIcon(Sprites.class.getResource("/sprites/destroyed.png"));
 }
