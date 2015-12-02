@@ -13,8 +13,8 @@ public class Invader extends GameObject
     private boolean hittable = true;
 
     //stores values of how big we want each invader to be
-    public static final int HEIGHT  = 20;
-    public static final int WIDTH   = 30;
+    public static final int HEIGHT  = 15;
+    public static final int WIDTH   = 25;
     public static final int HEIGHT_PAD  = 10;
     public static final int WIDTH_PAD   = 10;
     public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD * 2;
@@ -74,12 +74,13 @@ public class Invader extends GameObject
 
 
     public Bullet getBullet() {
-        return new Bullet(getX() + WIDTH / 2, getY() + HEIGHT / 2, 3, 6, Bullet.Source.ENEMY);
+        return new Bullet(getX() + WIDTH / 2 - 2, getY() + HEIGHT / 2, 4, 8, Bullet.Source.ENEMY);
     }
     public boolean hitByBullet(Bullet bullet) {
         boolean hit = bullet.getSource() == Bullet.Source.PLAYER && getBounds().intersects(bullet.getBounds()) && hittable;
         if (hit) {
             super.setSprite(Sprites.DESTROYED);
+            Sounds.INVADER_KILLED.play(-15);
             hittable = false;
         }
         return hit;

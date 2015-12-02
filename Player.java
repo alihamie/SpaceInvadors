@@ -37,7 +37,8 @@ public class Player extends GameObject
 
 
     public Bullet getBullet() {
-        return new Bullet(getX() + WIDTH / 2 - 1, getY(), 3, 6, Bullet.Source.PLAYER);
+        Sounds.SHOOT.play(-15);
+        return new Bullet(getX() + WIDTH / 2 - 2, getY(), 4, 8, Bullet.Source.PLAYER);
     }
     public boolean hitByBullet(Bullet bullet) {
         return bullet.getSource() == Bullet.Source.ENEMY && getBounds().intersects(bullet.getBounds());

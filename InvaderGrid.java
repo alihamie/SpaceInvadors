@@ -14,6 +14,7 @@ public class InvaderGrid extends Component {
     private boolean moved_down = false; // Used if checking if already moved down in previous movement
 
     private int kill_count = 0;
+    private int move_sound_stepper = 0;
 
     public InvaderGrid() {
         this(DEFAULT_ROWS, DEFAULT_COLUMNS, DEFAULT_DX, DEFAULT_DY);
@@ -77,6 +78,13 @@ public class InvaderGrid extends Component {
                 }
                 current.toggleSprite();
             }
+        }
+
+        switch (move_sound_stepper) {
+            case 0: Sounds.INVADERS_0.play(); move_sound_stepper++; break;
+            case 1: Sounds.INVADERS_1.play(); move_sound_stepper++; break;
+            case 2: Sounds.INVADERS_2.play(); move_sound_stepper++; break;
+            case 3: Sounds.INVADERS_3.play(); move_sound_stepper = 0; break;
         }
 
     }

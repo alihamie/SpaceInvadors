@@ -6,43 +6,71 @@
 ***********************************/
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.net.URL;
 
 
-public class SpaceInvaders
-{
+public class SpaceInvaders {
+    private static JFrame frame;
     private static GamePanel game;
     private static InfoPanelTop top;
+    private static InfoPanelBottom bottom;
 
-    private static Timer update_panels;
+    public static Font FONT;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
+        setMainFont();
+        Sounds.init();
+
         //regular JFrame procedure
-        JFrame frame = new JFrame("Space Invaders");
+        frame = new JFrame("Space Invaders");
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLayout(new BorderLayout());
 
-        frame.setSize(900, 500); // set frame size
+        frame.setSize(800, 600); // set frame size
+        frame.setResizable(false);
 
         top = new InfoPanelTop(frame.getWidth());
         frame.add(top, BorderLayout.PAGE_START);
+        bottom = new InfoPanelBottom(frame.getWidth());
+        frame.add(bottom, BorderLayout.PAGE_END);
 
-        game = new GamePanel(frame.getSize());
+        initGame();
         frame.add(game, BorderLayout.CENTER);
 
+        frame.setVisible( true ); // display frame
+    }
 
-        update_panels = new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                top.updateScore(game.getScore());
+    /**
+     * Initialize the game
+     */
+    private static void initGame() {
+        game = new GamePanel(new Dimension(frame.getWidth(), frame.getHeight() - top.getHeight() - bottom.getHeight()));
+        game.addPropertyChangeListener("score_update", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                top.setScore((Integer) evt.getNewValue());
             }
         });
-        update_panels.start();
+        game.addPropertyChangeListener("lives_update", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                bottom.setLives((Integer) evt.getNewValue());
+            }
+        });
+    }
 
-
-        frame.setVisible( true ); // display frame
+    /**
+     * Load the font to be used throughout the game and initialize it as SpaceInvader.FONT
+     */
+    private static void setMainFont() {
+        try {
+            URL input = SpaceInvaders.class.getResource("space_invaders.ttf");
+            FONT = Font.createFont(Font.TRUETYPE_FONT, new File(input.toURI()));
+        } catch (Exception e) {
+            System.err.println("Unable to load font: " + e);
+            FONT = new Font("Space Invaders", Font.PLAIN, 16);
+        }
     }
 
 }
