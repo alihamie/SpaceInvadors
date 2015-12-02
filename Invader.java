@@ -80,6 +80,7 @@ public class Invader extends GameObject
         boolean hit = bullet.getSource() == Bullet.Source.PLAYER && getBounds().intersects(bullet.getBounds()) && hittable;
         if (hit) {
             super.setSprite(Sprites.DESTROYED);
+            Sounds.INVADER_KILLED.play(-15);
             hittable = false;
         }
         return hit;

@@ -22,6 +22,7 @@ public class SpaceInvaders {
 
     public static void main(String[] args) {
         setMainFont();
+        Sounds.init();
 
         //regular JFrame procedure
         frame = new JFrame("Space Invaders");
@@ -42,6 +43,9 @@ public class SpaceInvaders {
         frame.setVisible( true ); // display frame
     }
 
+    /**
+     * Initialize the game
+     */
     private static void initGame() {
         game = new GamePanel(new Dimension(frame.getWidth(), frame.getHeight() - top.getHeight() - bottom.getHeight()));
         game.addPropertyChangeListener("score_update", new PropertyChangeListener() {
@@ -56,6 +60,9 @@ public class SpaceInvaders {
         });
     }
 
+    /**
+     * Load the font to be used throughout the game and initialize it as SpaceInvader.FONT
+     */
     private static void setMainFont() {
         try {
             URL input = SpaceInvaders.class.getResource("space_invaders.ttf");

@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener
@@ -26,20 +28,40 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         setFocusable(true);
         addKeyListener(this);
 
+        // Create Timers for the first time
+        paint_timer = new Timer(10, this);
+        invader_shoot_timer = new Timer(1000, this);
+        invader_move_timer = new Timer(560, this);
 
+        init();
+    }
+
+    private void reset() {
+        paint_timer.stop();
+        invader_move_timer.stop();
+        invader_shoot_timer.stop();
+
+        paint_timer.setDelay(paint_timer.getInitialDelay());
+        invader_move_timer.setDelay(invader_move_timer.getInitialDelay());
+        invader_shoot_timer.setDelay(invader_shoot_timer.getInitialDelay());
+
+        init();
+    }
+
+    /**
+     * Sets the initial variables for the game and starts the timers
+     * Timers MUST BE created or reset before this function is called
+     */
+    public void init() {
         invaders = new InvaderGrid();
         bullets = new ArrayList<>();
         player = new Player(getWidth() / 2 - Player.WIDTH / 2, getHeight() * 8 / 10);
         score = 0;
         lives = 3;
 
-        // start the timer
-        paint_timer = new Timer(10, this);
-        paint_timer.start();
-        invader_shoot_timer = new Timer(1000, this);
-        invader_shoot_timer.start();
-        invader_move_timer = new Timer(557, this);
         invader_move_timer.start();
+        invader_shoot_timer.start();
+        paint_timer.start();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -65,6 +87,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
             case KeyEvent.VK_LEFT:  key_left_down  = true; break;
             case KeyEvent.VK_RIGHT: key_right_down = true; break;
             case KeyEvent.VK_SPACE: key_space_down = true; break;
+            case KeyEvent.VK_R: reset(); break;
         }
     }
 
@@ -188,4 +211,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         }
     }
 
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        setFocusable(false);
+    }
 }
