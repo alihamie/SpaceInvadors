@@ -43,7 +43,7 @@ public class SpaceInvaders implements KeyListener {
         frame.add(bottom, BorderLayout.PAGE_END);
 
 	
-	mainMenu = new MainMenuPanel(50)
+	mainMenu = new MainMenuPanel(50);
 
 
         initGame();
