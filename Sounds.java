@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-//import javafx.scene.media.AudioClip;
-
-=======
->>>>>>> 2a42d7324e28c1eac0cd89d57729d7f4ca460bb5
 import javax.sound.sampled.*;
 import java.net.URL;
 

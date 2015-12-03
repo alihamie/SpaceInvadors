@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener
+public class GamePanel extends JPanel implements ActionListener
 {
     private Random random = new Random();
     private Timer paint_timer;
@@ -26,16 +26,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
 
 
     public GamePanel(Dimension size) {
+        setPreferredSize(size);
         setSize(size);
         setBackground(Color.BLACK);
-        setFocusable(true);
-        addKeyListener(this);
+        makeKeyBindings();
 
         // Create Timers for the first time
         game_timer = new Timer(10, this);
         paint_timer = new Timer(10, this);
         invader_shoot_timer = new Timer(1000, this);
-        invader_move_timer = new Timer(558, this);
+        invader_move_timer = new Timer(557, this);
         heartbeat_timer = new Timer(invader_move_timer.getInitialDelay(), this);
 
         init();
@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         invader_shoot_timer.stop();
         heartbeat_timer.stop();
         game_timer.stop();
-        //paint_timer.stop();
+        paint_timer.stop();
 
         paint_timer.setDelay(paint_timer.getInitialDelay());
         game_timer.setDelay(game_timer.getInitialDelay());
@@ -64,16 +64,81 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
     public void init() {
         invaders = new InvaderGrid();
         bullets = new ArrayList<>();
-        player = new Player(getWidth() / 2 - Player.WIDTH / 2, getHeight() * 9 / 10);
+        player = new Player(getWidth() / 2 - Player.WIDTH / 2, getHeight() * 8 / 10);
+        System.out.println(player.getY());
         score = 0;
         lives = 3;
         heartbeat_stepper = 0;
 
-        // paint_timer.start();
+//        paint_timer.start();
         game_timer.start();
         invader_move_timer.start();
         invader_shoot_timer.start();
         heartbeat_timer.start();
+    }
+
+    private void makeKeyBindings() {
+        getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "fireBullet");
+        getActionMap().put("fireBullet", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                key_space_down = true;
+            }
+        });
+        getInputMap().put(KeyStroke.getKeyStroke("released SPACE"), "fireBullet_release");
+        getActionMap().put("fireBullet_release", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                key_space_down = false;
+            }
+        });
+
+        getInputMap().put(KeyStroke.getKeyStroke("pressed LEFT"), "moveLeft");
+        getActionMap().put("moveLeft", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                key_left_down = true;
+            }
+        });
+        getInputMap().put(KeyStroke.getKeyStroke("released LEFT"), "moveLeft_release");
+        getActionMap().put("moveLeft_release", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                key_left_down = false;
+            }
+        });
+
+        getInputMap().put(KeyStroke.getKeyStroke("pressed RIGHT"), "moveRight");
+        getActionMap().put("moveRight", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                key_right_down = true;
+            }
+        });
+        getInputMap().put(KeyStroke.getKeyStroke("released RIGHT"), "moveRight_release");
+        getActionMap().put("moveRight_release", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                key_right_down = false;
+            }
+        });
+
+        getInputMap().put(KeyStroke.getKeyStroke("R"), "reset");
+        getActionMap().put("reset", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reset();
+                firePropertyChange("game_reset", false, true);
+            }
+        });
+
+        getInputMap().put(KeyStroke.getKeyStroke("M"), "mute");
+        getActionMap().put("mute", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Sounds.toggleMuteAll();
+            }
+        });
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -105,26 +170,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
             playGame();
         } else {
             repaint();
-        }
-    }
-
-    public void keyTyped(KeyEvent e) {}
-
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:  key_left_down  = true; break;
-            case KeyEvent.VK_RIGHT: key_right_down = true; break;
-            case KeyEvent.VK_SPACE: key_space_down = true; break;
-            case KeyEvent.VK_M: Sounds.toggleMuteAll(); break;
-            case KeyEvent.VK_R: reset(); firePropertyChange("game_reset", false, true); break;
-        }
-    }
-
-    public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:  key_left_down  = false; break;
-            case KeyEvent.VK_RIGHT: key_right_down = false; break;
-            case KeyEvent.VK_SPACE: key_space_down = false; break;
         }
     }
 
@@ -222,6 +267,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
                 accelerateHeartbeat();
                 System.out.println("HIT! Points awarded: " + points_added + "   Score: " + score);
                 bullets.remove(i);
+                if (invaders.numInvadersNow() == 0) {
+                    firePropertyChange("player_won", false, true);
+                }
                 break;
             }
 
@@ -231,7 +279,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
                 System.out.printf("OUCH! Lives: " + lives + "\n");
                 firePropertyChange("lives_update", lives + 1, lives);
                 bullets.clear();
-
                 break;
             }
 
@@ -251,9 +298,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
             }
             if (crash) break;
         }
-
-
-
     }
 
     private void accelerateHeartbeat() {
@@ -262,12 +306,4 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener
         }
     }
 
-
-
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        setFocusable(false);
-    }
 }
