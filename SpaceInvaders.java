@@ -13,16 +13,18 @@ import java.net.URL;
 
 
 public class SpaceInvaders {
+
     private static JFrame frame;
     private static GamePanel game;
     private static InfoPanelTop top;
     private static InfoPanelBottom bottom;
+    private static MainMenuPanel mainMenu;
 
     public static Font FONT;
 
     public static void main(String[] args) {
         setMainFont();
-        Sounds.init();
+        //Sounds.init();
 
         //regular JFrame procedure
         frame = new JFrame("Space Invaders");
@@ -36,9 +38,11 @@ public class SpaceInvaders {
         frame.add(top, BorderLayout.PAGE_START);
         bottom = new InfoPanelBottom(frame.getWidth());
         frame.add(bottom, BorderLayout.PAGE_END);
-
+	
+	mainMenu = new MainMenuPanel(50);
         initGame();
-        frame.add(game, BorderLayout.CENTER);
+        //frame.add(game, BorderLayout.CENTER);
+	frame.add(mainMenu, BorderLayout.CENTER);
 
         frame.setVisible( true ); // display frame
     }

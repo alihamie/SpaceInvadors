@@ -40,8 +40,12 @@ public class Player extends GameObject
         Sounds.SHOOT.play(-15);
         return new Bullet(getX() + WIDTH / 2 - 2, getY(), 4, 8, Bullet.Source.PLAYER);
     }
+
     public boolean hitByBullet(Bullet bullet) {
         return bullet.getSource() == Bullet.Source.ENEMY && getBounds().intersects(bullet.getBounds());
     }
+
+
+
 
 }
