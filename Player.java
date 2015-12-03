@@ -32,14 +32,21 @@ public class Player extends GameObject
     {
         g.drawImage(super.getSprite().getImage(), getX(), getY(), WIDTH, HEIGHT, null);
     }
-
+    public void resetSprite() {
+        super.setSprite(Sprites.PLAYER);
+    }
 
     public Bullet getBullet() {
         Sounds.SHOOT.play(-15);
         return new Bullet(getX() + WIDTH / 2 - 2, getY(), 4, 8, Bullet.Source.PLAYER);
     }
     public boolean hitByBullet(Bullet bullet) {
-        return bullet.getSource() == Bullet.Source.ENEMY && getBounds().intersects(bullet.getBounds());
+        boolean hit = bullet.getSource() == Bullet.Source.ENEMY && getBounds().intersects(bullet.getBounds());
+        if (hit) {
+            // super.setSprite(Sprites.PLAYER_DESTROYED);
+            Sounds.EXPLOSION.play(-5);
+        }
+        return hit;
     }
 
 }

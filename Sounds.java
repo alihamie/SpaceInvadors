@@ -1,5 +1,3 @@
-import javafx.scene.media.AudioClip;
-
 import javax.sound.sampled.*;
 import java.net.URL;
 
@@ -39,9 +37,18 @@ public enum Sounds {
             clip.stop();
         }
         clip.setFramePosition(0);
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(volume);
+        FloatControl gain_control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gain_control.setValue(volume);
         clip.start();
+    }
+
+    public static void toggleMuteAll() {
+        Sounds[] sounds = values();
+        for (int i = 0; i < sounds.length; i++) {
+            BooleanControl mute_control = (BooleanControl) sounds[i].clip.getControl(BooleanControl.Type.MUTE);
+            mute_control.setValue(!mute_control.getValue());
+        }
+
     }
 
     public static void init() {

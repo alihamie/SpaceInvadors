@@ -4,17 +4,16 @@ import java.util.Random;
 
 public class InvaderGrid extends Component {
     public static int DEFAULT_ROWS = 5, DEFAULT_COLUMNS = 11;
-    public static int DEFAULT_DX = 20, DEFAULT_DY = Invader.HEIGHT;
+    public static int DEFAULT_DX = 15, DEFAULT_DY = Invader.TOTAL_HEIGHT;
 
     private ArrayList<ArrayList<Invader>> invaders = new ArrayList<>();
-    private int rows = DEFAULT_ROWS;
-    private int columns = DEFAULT_COLUMNS;
-    private int dx = DEFAULT_DX;
-    private int dy = DEFAULT_DY;
+    private int rows;
+    private int columns;
+    private int dx;
+    private int dy;
     private boolean moved_down = false; // Used if checking if already moved down in previous movement
 
     private int kill_count = 0;
-    private int move_sound_stepper = 0;
 
     public InvaderGrid() {
         this(DEFAULT_ROWS, DEFAULT_COLUMNS, DEFAULT_DX, DEFAULT_DY);
@@ -80,12 +79,7 @@ public class InvaderGrid extends Component {
             }
         }
 
-        switch (move_sound_stepper) {
-            case 0: Sounds.INVADERS_0.play(); move_sound_stepper++; break;
-            case 1: Sounds.INVADERS_1.play(); move_sound_stepper++; break;
-            case 2: Sounds.INVADERS_2.play(); move_sound_stepper++; break;
-            case 3: Sounds.INVADERS_3.play(); move_sound_stepper = 0; break;
-        }
+
 
     }
 
