@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements ActionListener
     private Timer invader_move_timer;
     private Timer heartbeat_timer;
     private int heartbeat_stepper;
+    private final String you_lose = "YOU LOSE!EARTH HAS BEEN DESTROYED!!!!";
 
     private InvaderGrid invaders;
     private ArrayList<Bullet> bullets;
@@ -185,12 +186,21 @@ public class GamePanel extends JPanel implements ActionListener
     private void playGame() {
         destroyBullets();
         checkCollision();
-
         repaint();
 
         moveBullets();
         movePlayer();
         fireBulletPlayer();
+	
+	if(checkLoss() )
+	{
+	    heartbeat_timer.stop();
+            invader_shoot_timer.stop();
+            invader_move_timer.stop();
+            game_timer.stop();
+            paint_timer.stop();
+	    firePropertyChange("player_lose", lives + 1, lives);
+	}
 
         if (invaders.isEmpty()) { // no more enemies left
             heartbeat_timer.stop();
@@ -198,6 +208,7 @@ public class GamePanel extends JPanel implements ActionListener
             invader_move_timer.stop();
             game_timer.stop();
             paint_timer.stop();
+	    firePropertyChange("player_win", lives + 1, lives);
             System.out.println("\nNo More Enemies!");
         }
     }
@@ -300,6 +311,17 @@ public class GamePanel extends JPanel implements ActionListener
         }
     }
 
+    private boolean checkLoss()
+    {
+	if(lives <= 0 )
+		return true;
+	else
+		return false;
+
+    }
+
+    
+    
     private void accelerateHeartbeat() {
         if (invaders.numInvadersNow() % 5 == 0) {
             heartbeat_timer.setDelay(heartbeat_timer.getDelay() - 45);

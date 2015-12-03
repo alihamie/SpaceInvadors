@@ -16,10 +16,11 @@ public class MainMenuPanel extends JPanel {
 
     private JLabel start_button = new JLabel("Play Space Invaders");
     private JLabel options_button = new JLabel("Options");
+    private JLabel exit_button = new JLabel("Exit!");
 
     private JLabel start_cursor = new JLabel("");
     private JLabel options_cursor = new JLabel("");
-
+    private JLabel exit_cursor = new JLabel("");
 
     ImageIcon small_invader = Sprites.SMALL_INVADER_0;
     ImageIcon medium_invader = Sprites.MEDIUM_INVADER_0;
@@ -29,7 +30,7 @@ public class MainMenuPanel extends JPanel {
     private GridBagLayout layout;
     private GridBagConstraints c;
 
-    private boolean visible = true;
+    private int visible = 0;
 
     MainMenuPanel (int width) {
         setSize(90, 100);
@@ -47,6 +48,7 @@ public class MainMenuPanel extends JPanel {
         ufo_points.setForeground(new Color(252, 252, 252));
         start_button.setForeground(new Color(252, 252, 252));
         options_button.setForeground(new Color(252, 252, 252));
+	exit_button.setForeground(new Color(252, 252, 252));
 
         space.setFont(SpaceInvaders.FONT.deriveFont(50f));
         invaders.setFont(SpaceInvaders.FONT.deriveFont(30f));
@@ -56,6 +58,7 @@ public class MainMenuPanel extends JPanel {
         ufo_points.setFont(SpaceInvaders.FONT.deriveFont(15f));
         start_button.setFont(SpaceInvaders.FONT.deriveFont(17f));
         options_button.setFont(SpaceInvaders.FONT.deriveFont(17f));
+	exit_button.setFont(SpaceInvaders.FONT.deriveFont(17f));
 
         Image small = getScaledImage( small_invader.getImage(),20,20 );
         Image medium = getScaledImage( medium_invader.getImage(),20,20 );
@@ -129,6 +132,7 @@ public class MainMenuPanel extends JPanel {
         c.gridx =0;
         c.gridy = 7;
         c.weightx = 0;
+	//c.anchor = GridBagConstraints.WEST;
         c.insets = new Insets(10,0,0,0);  //top padding
         options_cursor.setIcon ( (Icon) new ImageIcon(ufo_image) );
         JPanel k = new JPanel();
@@ -140,11 +144,28 @@ public class MainMenuPanel extends JPanel {
         options_cursor.setVisible(false);
         add(k,c);
 
+
+  	c.gridx =0;
+        c.gridy = 8;
+        c.weightx = 0;
+	//c.anchor = GridBagConstraints.WEST;
+        c.insets = new Insets(10,0,0,0);  //top padding
+        exit_cursor.setIcon ( (Icon) new ImageIcon(ufo_image) );
+        JPanel v = new JPanel();
+        FlowLayout flow2 = new FlowLayout ();
+        v.setLayout(flow2);
+        v.setBackground(Color.BLACK);
+        v.add(exit_cursor);
+        v.add(exit_button);
+        exit_cursor.setVisible(false);
+        add(v,c);
+
+
     }
 
 
     private void makeKeyBindings() {
-        JPanel self = this;
+        final JPanel  self = this;
         getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "select");
         getActionMap().put("select", new AbstractAction() {
 
@@ -153,10 +174,14 @@ public class MainMenuPanel extends JPanel {
                 if (options_cursor.isVisible()) {
                     self.firePropertyChange("options_selected", false, true);
                     System.out.printf("Clicked options\n");
-                } else {
+                } else if(start_cursor.isVisible() ){
                     self.firePropertyChange("start_game_selected", false, true);
                     System.out.printf("Clicked start game\n");
                 }
+		else if(exit_cursor.isVisible() ){
+			System.exit(1);
+
+		}
             }
         });
 
@@ -164,9 +189,33 @@ public class MainMenuPanel extends JPanel {
         getActionMap().put("down", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                options_cursor.setVisible(visible);
-                visible = !visible;
-                start_cursor.setVisible(visible);
+               if(visible == 0 )
+			visible++;
+		else if(visible == 1 )
+		{
+			visible++;
+		}
+		else visible = 0;
+
+		if(visible == 0 )
+		{
+			start_cursor.setVisible(true);
+			options_cursor.setVisible(false);
+			exit_cursor.setVisible(false);
+		}
+		else if(visible == 1 )
+		{
+			start_cursor.setVisible(false);
+			options_cursor.setVisible(true);
+			exit_cursor.setVisible(false);
+		}
+		else
+		{
+			start_cursor.setVisible(false);
+			options_cursor.setVisible(false);
+			exit_cursor.setVisible(true);
+		}
+
             }
         });
 
@@ -174,9 +223,34 @@ public class MainMenuPanel extends JPanel {
         getActionMap().put("up", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                options_cursor.setVisible(visible);
-                visible = !visible;
-                start_cursor.setVisible(visible);
+		if(visible == 0 )
+			visible = 2;
+		else if(visible == 1 )
+		{
+			visible--;
+		}
+		else visible--;
+
+		if(visible == 0 )
+		{
+			start_cursor.setVisible(true);
+			options_cursor.setVisible(false);
+			exit_cursor.setVisible(false);
+		}
+		else if(visible == 1 )
+		{
+			start_cursor.setVisible(false);
+			options_cursor.setVisible(true);
+			exit_cursor.setVisible(false);
+		}
+		else
+		{
+			start_cursor.setVisible(false);
+			options_cursor.setVisible(false);
+			exit_cursor.setVisible(true);
+		}
+
+                
             }
         });
     }
