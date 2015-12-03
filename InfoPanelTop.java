@@ -5,7 +5,8 @@ public class InfoPanelTop extends JPanel {
     private JLabel score1 = new JLabel("Score: 0000");
 
     InfoPanelTop (int width) {
-        setSize(width, 50);
+        setPreferredSize(new Dimension(width, 50));
+        setSize(new Dimension(width, 50));
         setBackground(Color.BLACK);
 
         score1.setForeground(new Color(252, 252, 252));

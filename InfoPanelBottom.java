@@ -5,8 +5,9 @@ public class InfoPanelBottom extends JPanel{
     private JLabel lives_label = new JLabel("Lives: 3");
 
     InfoPanelBottom (int width) {
-        setSize(width, 50);
-        setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(width, 50));
+        setSize(new Dimension(width, 50));
+         setBackground(Color.BLACK);
 
         lives_label.setForeground(new Color(252, 252, 252));
         lives_label.setFont(SpaceInvaders.FONT.deriveFont(16f));

@@ -6,8 +6,6 @@
 ***********************************/
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -15,7 +13,7 @@ import java.net.URL;
 
 
 
-public class SpaceInvaders implements KeyListener {
+public class SpaceInvaders {
 
     private static JFrame frame;
     private static GamePanel game;
@@ -27,7 +25,7 @@ public class SpaceInvaders implements KeyListener {
 
     public static void main(String[] args) {
         setMainFont();
-        //Sounds.init();
+        Sounds.init();
 
         //regular JFrame procedure
         frame = new JFrame("Space Invaders");
@@ -43,12 +41,8 @@ public class SpaceInvaders implements KeyListener {
         frame.add(bottom, BorderLayout.PAGE_END);
 
 	
-	mainMenu = new MainMenuPanel(50)
-
-
-        initGame();
-        //frame.add(game, BorderLayout.CENTER);
-	frame.add(mainMenu, BorderLayout.CENTER);
+        initMenu();
+	    frame.add(mainMenu, BorderLayout.CENTER);
 
         frame.setVisible( true ); // display frame
     }
@@ -57,6 +51,7 @@ public class SpaceInvaders implements KeyListener {
      * Initialize the game
      */
     private static void initGame() {
+        System.out.println(frame.getHeight() - top.getHeight() - bottom.getHeight());
         game = new GamePanel(new Dimension(frame.getWidth(), frame.getHeight() - top.getHeight() - bottom.getHeight()));
         game.addPropertyChangeListener("score_update", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -66,12 +61,42 @@ public class SpaceInvaders implements KeyListener {
         game.addPropertyChangeListener("lives_update", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 bottom.setLives((Integer) evt.getNewValue());
+                if ((Integer) evt.getNewValue() == 0) {
+                    // Player lost screen
+                }
             }
         });
         game.addPropertyChangeListener("game_reset", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 bottom.setLives(3);
                 top.setScore(0);
+            }
+        });
+        game.addPropertyChangeListener("player_won", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                // Player won screen
+            }
+        });
+    }
+
+    private static void initMenu() {
+        mainMenu = new MainMenuPanel(50);
+        mainMenu.addPropertyChangeListener("start_game_selected", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                System.out.println("Starting Game");
+                initGame();
+                frame.remove(mainMenu);
+                mainMenu = null;
+                frame.add(game, BorderLayout.CENTER);
+
+                // Makes sure game has focus
+                frame.revalidate();
+                game.requestFocus();
+            }
+        });
+        mainMenu.addPropertyChangeListener("options_selected", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                System.out.println("Starting Options");
             }
         });
     }
@@ -87,22 +112,5 @@ public class SpaceInvaders implements KeyListener {
             System.err.println("Unable to load font: " + e);
             FONT = new Font("Space Invaders", Font.PLAIN, 16);
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_M: Sounds.toggleMuteAll(); break;
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }
