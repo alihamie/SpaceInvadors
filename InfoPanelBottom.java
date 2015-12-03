@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class InfoPanelBottom extends JPanel{
-    private JLabel lives_label = new JLabel("Lives: 2");
+    private JLabel lives_label = new JLabel("Lives: 3");
 
     InfoPanelBottom (int width) {
         setSize(width, 50);
@@ -14,6 +14,6 @@ public class InfoPanelBottom extends JPanel{
     }
 
     public void setLives(Integer lives_count) {
-        lives_label.setText("Lives: " + (lives_count - 1));
+        lives_label.setText("Lives: " + (lives_count));
     }
 }

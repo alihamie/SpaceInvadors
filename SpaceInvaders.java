@@ -6,13 +6,16 @@
 ***********************************/
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.URL;
 
 
-public class SpaceInvaders {
+
+public class SpaceInvaders implements KeyListener {
 
     private static JFrame frame;
     private static GamePanel game;
@@ -38,8 +41,11 @@ public class SpaceInvaders {
         frame.add(top, BorderLayout.PAGE_START);
         bottom = new InfoPanelBottom(frame.getWidth());
         frame.add(bottom, BorderLayout.PAGE_END);
+
 	
-	mainMenu = new MainMenuPanel(50);
+	mainMenu = new MainMenuPanel(50)
+
+
         initGame();
         //frame.add(game, BorderLayout.CENTER);
 	frame.add(mainMenu, BorderLayout.CENTER);
@@ -62,6 +68,12 @@ public class SpaceInvaders {
                 bottom.setLives((Integer) evt.getNewValue());
             }
         });
+        game.addPropertyChangeListener("game_reset", new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                bottom.setLives(3);
+                top.setScore(0);
+            }
+        });
     }
 
     /**
@@ -77,4 +89,20 @@ public class SpaceInvaders {
         }
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_M: Sounds.toggleMuteAll(); break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }
