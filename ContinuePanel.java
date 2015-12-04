@@ -14,7 +14,7 @@ public class ContinuePanel extends JPanel {
 
     private JLabel continue_cursor = new JLabel("");
     private JLabel exit_cursor = new JLabel("");
-  
+
     ImageIcon ufo = Sprites.UFO;
 
     private GridBagLayout layout;
@@ -22,11 +22,11 @@ public class ContinuePanel extends JPanel {
 
     private boolean visible = true;
 
-   ContinuePanel (String msg) {
+    ContinuePanel (String msg) {
         setSize(90, 100);
         setBackground(Color.BLACK);
         makeKeyBindings();
-	this.message.setText(msg);
+        this.message.setText(msg);
 
         layout = new GridBagLayout();
         c = new GridBagConstraints();
@@ -35,13 +35,13 @@ public class ContinuePanel extends JPanel {
         message.setForeground(new Color(252, 252, 252));
         continue_button.setForeground(new Color(252, 252, 252));
         exit_button.setForeground(new Color(252, 252, 252));
-      
-       	message.setFont(SpaceInvaders.FONT.deriveFont(30f));
+
+        message.setFont(SpaceInvaders.FONT.deriveFont(30f));
         continue_button.setFont(SpaceInvaders.FONT.deriveFont(15f));
-	exit_button.setFont(SpaceInvaders.FONT.deriveFont(15f));
+        exit_button.setFont(SpaceInvaders.FONT.deriveFont(15f));
 
 
- 
+
         Image ufo_image =  getScaledImage( ufo.getImage(),20,20 );
 
         c.gridx = 0;
@@ -119,7 +119,6 @@ public class ContinuePanel extends JPanel {
             }
         });
     }
-
 
 
     private Image getScaledImage(Image srcImg, int w, int h){

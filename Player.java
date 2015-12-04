@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class is used to have general information about the invader.
@@ -13,8 +15,6 @@ public class Player extends GameObject
     public static final int WIDTH_PAD   = 5;
     public static final int TOTAL_HEIGHT  = HEIGHT + HEIGHT_PAD;
     public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD;
-
-
 
     Player() {
         super(GameObject.Type.PLAYER, Sprites.PLAYER);
@@ -46,7 +46,6 @@ public class Player extends GameObject
     public boolean hitByBullet(Bullet bullet) {
         boolean hit = bullet.getSource() == Bullet.Source.ENEMY && getBounds().intersects(bullet.getBounds());
         if (hit) {
-            // super.setSprite(Sprites.PLAYER_DESTROYED);
             Sounds.EXPLOSION.play(-5);
         }
         return hit;

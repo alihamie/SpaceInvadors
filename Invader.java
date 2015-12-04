@@ -21,8 +21,7 @@ public class Invader extends GameObject
     public static final int TOTAL_WIDTH  = WIDTH + WIDTH_PAD * 2;
 
 
-    Invader(Version version, int x, int y)
-    {
+    Invader(Version version, int x, int y) {
         super(GameObject.Type.ENEMY,
                 version == Version.SMALL ? Sprites.SMALL_INVADER_0 :
                 (version == Version.MEDIUM ? Sprites.MEDIUM_INVADER_0 : Sprites.LARGE_INVADER_0));

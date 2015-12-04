@@ -1,9 +1,9 @@
 /**********************************
 
-	This is the main class
-	
+ This is the main class
 
-***********************************/
+
+ ***********************************/
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -41,10 +41,9 @@ public class SpaceInvaders {
         bottom = new InfoPanelBottom(frame.getWidth());
         frame.add(bottom, BorderLayout.PAGE_END);
 
-	
 
-       	    initMenu();
-	    frame.add(mainMenu, BorderLayout.CENTER);
+        initMenu();
+        frame.add(mainMenu, BorderLayout.CENTER);
 
 
         frame.setVisible( true ); // display frame
@@ -54,7 +53,6 @@ public class SpaceInvaders {
      * Initialize the game
      */
     private static void initGame() {
-        System.out.println(frame.getHeight() - top.getHeight() - bottom.getHeight());
         game = new GamePanel(new Dimension(frame.getWidth(), frame.getHeight() - top.getHeight() - bottom.getHeight()));
         game.addPropertyChangeListener("score_update", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -64,9 +62,6 @@ public class SpaceInvaders {
         game.addPropertyChangeListener("lives_update", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 bottom.setLives((Integer) evt.getNewValue());
-                if ((Integer) evt.getNewValue() == 0) {
-                    // Player lost screen
-                }
             }
         });
         game.addPropertyChangeListener("game_reset", new PropertyChangeListener() {
@@ -78,24 +73,24 @@ public class SpaceInvaders {
         game.addPropertyChangeListener("player_won", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 frame.remove(game);
-                game = null;
-		initContinue("YOU WIN!");
+                game.resetAndWait();
+                initContinue("YOU WIN!");
                 frame.add(cont, BorderLayout.CENTER);
                 frame.revalidate();
-		 cont.requestFocus();
+                cont.requestFocus();
             }
         });
 
 
-   	game.addPropertyChangeListener("player_lose", new PropertyChangeListener() {
+        game.addPropertyChangeListener("player_lose", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 frame.remove(game);
-                game = null;
-		initContinue("YOU LOSE! Earth have been destroyed!");
+                game.resetAndWait();
+                initContinue("YOU LOSE! Earth has been destroyed!");
                 frame.add(cont, BorderLayout.CENTER);
                 frame.revalidate();
-		 cont.requestFocus();
-                
+                cont.requestFocus();
+
             }
         });
     }
@@ -105,9 +100,12 @@ public class SpaceInvaders {
         mainMenu.addPropertyChangeListener("start_game_selected", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 System.out.println("Starting Game");
-                initGame();
                 frame.remove(mainMenu);
-                mainMenu = null;
+                if (game == null) {
+                    initGame();
+                } else {
+                    game.init();
+                }
                 frame.add(game, BorderLayout.CENTER);
                 // Makes sure game has focus
                 frame.revalidate();
@@ -122,29 +120,32 @@ public class SpaceInvaders {
     }
 
 
-   private static void initContinue(String msg){
-	cont = new ContinuePanel(msg);
-	cont.addPropertyChangeListener("continue_game_selected", new PropertyChangeListener() {
+    private static void initContinue(String msg){
+        cont = new ContinuePanel(msg);
+        cont.addPropertyChangeListener("continue_game_selected", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 System.out.println("Starting Game");
-                initGame();
                 frame.remove(cont);
                 cont = null;
                 frame.add(game, BorderLayout.CENTER);
-
+                game.init();
+                top.setScore(0);
+                bottom.setLives(3);
                 // Makes sure game has focus
                 frame.revalidate();
                 game.requestFocus();
             }
         });
 
-	cont.addPropertyChangeListener("exit_game_selected", new PropertyChangeListener() {
+        cont.addPropertyChangeListener("exit_game_selected", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 System.out.println("exiting Game");
-                initMenu();
                 frame.remove(cont);
                 cont = null;
+                initMenu();
                 frame.add(mainMenu, BorderLayout.CENTER);
+                top.setScore(0);
+                bottom.setLives(3);
                 // Makes sure game has focus
                 frame.revalidate();
                 mainMenu.requestFocus();
@@ -153,7 +154,7 @@ public class SpaceInvaders {
 
 
 
-	}
+    }
     /**
      * Load the font to be used throughout the game and initialize it as SpaceInvader.FONT
      */

@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class InvaderGrid extends Component {
     public static int DEFAULT_ROWS = 5, DEFAULT_COLUMNS = 11;
-    public static int DEFAULT_DX = 15, DEFAULT_DY = Invader.TOTAL_HEIGHT;
+    public static int DEFAULT_DX = 15, DEFAULT_DY = Invader.HEIGHT + Invader.HEIGHT_PAD;
 
     private ArrayList<ArrayList<Invader>> invaders = new ArrayList<>();
     private int rows;
@@ -12,6 +12,7 @@ public class InvaderGrid extends Component {
     private int dx;
     private int dy;
     private boolean moved_down = false; // Used if checking if already moved down in previous movement
+    private int moves_down = 0;
 
     private int kill_count = 0;
 
@@ -62,9 +63,10 @@ public class InvaderGrid extends Component {
      * @param max_right Right-most location permissible to perform the movement
      */
     public void performMovement(int max_left, int max_right) {
-        boolean move_down = (getLeftBound() < max_left || getRightBound() > max_right) && !moved_down;
+        boolean move_down = (getLeftBound() + dx < max_left || getRightBound() > max_right) && !moved_down;
         moved_down = move_down;
         dx = move_down ? -dx : dx;
+        moves_down = move_down ? moves_down + 1 : moves_down;
 
         Invader current;
         for (int i = 0; i < invaders.size(); i++) {
@@ -78,9 +80,6 @@ public class InvaderGrid extends Component {
                 current.toggleSprite();
             }
         }
-
-
-
     }
 
 
@@ -126,6 +125,13 @@ public class InvaderGrid extends Component {
             }
         }
         return result + Invader.WIDTH + Invader.WIDTH_PAD;
+    }
+
+    /**
+     * @return Gets the bottom-most location of the grid
+     */
+    public int getBottomBound() {
+        return invaders.get(invaders.size() - 1).get(0).getY() + Invader.TOTAL_HEIGHT;
     }
 
 
@@ -176,6 +182,10 @@ public class InvaderGrid extends Component {
 
     public int numInvadersDestroyed() {
         return kill_count;
+    }
+
+    public int numMovesDown() {
+        return moves_down;
     }
 
 }

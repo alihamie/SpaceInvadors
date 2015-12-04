@@ -8,7 +8,9 @@ public enum Sounds {
     INVADERS_0("/audio/invaders_0.wav"),
     INVADERS_1("/audio/invaders_1.wav"),
     INVADERS_2("/audio/invaders_2.wav"),
-    INVADERS_3("/audio/invaders_3.wav");
+    INVADERS_3("/audio/invaders_3.wav"),
+    UFO_LOOP("/audio/ufo_highpitch.wav"),
+    UFO_DESTROYED("/audio/ufo_lowpitch.wav");;
 
     private Clip clip;
 
@@ -24,6 +26,11 @@ public enum Sounds {
         }
     }
 
+    public void setVolume(float volume) {
+        FloatControl gain_control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gain_control.setValue(volume);
+    }
+
     public void play() {
         if (clip.isRunning()) {
             clip.stop();
@@ -37,9 +44,29 @@ public enum Sounds {
             clip.stop();
         }
         clip.setFramePosition(0);
-        FloatControl gain_control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gain_control.setValue(volume);
+        setVolume(volume);
         clip.start();
+    }
+
+    public void loop() {
+        if (clip.isRunning()) {
+            clip.stop();
+        }
+        clip.setFramePosition(0);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public void loop(float volume) {
+        if (clip.isRunning()) {
+            clip.stop();
+        }
+        clip.setFramePosition(0);
+        setVolume(volume);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public void stop() {
+        clip.stop();
     }
 
     public static void toggleMuteAll() {
