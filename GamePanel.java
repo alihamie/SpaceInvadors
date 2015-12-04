@@ -182,21 +182,21 @@ public class GamePanel extends JPanel
         boolean end_game = false;
         if (invaders.isEmpty()) { // no more enemies left
             end_game = true;
-            System.out.println("\nNo More Enemies!");
+            //System.out.println("\nNo More Enemies!");
             if (ufo != null) {
                 ufo.stopSoundLoop();
             }
             firePropertyChange("player_win", lives + 1, lives);
         } else if (invaders.getBottomBound() > player.getY()) {
             end_game = true;
-            System.out.println("\nYou have been INVADED!");
+            //System.out.println("\nYou have been INVADED!");
             if (ufo != null) {
                 ufo.stopSoundLoop();
             }
             firePropertyChange("player_lose", lives + 1, lives);
         } else if (lives <= 0) {
             end_game = true;
-            System.out.println("\nYou have been DESTROYED!");
+            //System.out.println("\nYou have been DESTROYED!");
             if (ufo != null) {
                 ufo.stopSoundLoop();
             }
@@ -298,7 +298,7 @@ public class GamePanel extends JPanel
                 firePropertyChange("score_update", score - points_added, score);
                 invader_move_timer.setDelay(invader_move_timer.getDelay() - 10);
                 accelerateHeartbeat();
-                System.out.println("HIT! Points awarded: " + points_added + "   Score: " + score);
+                //System.out.println("HIT! Points awarded: " + points_added + "   Score: " + score);
                 bullets.remove(i);
                 break;
             }
@@ -308,7 +308,7 @@ public class GamePanel extends JPanel
                     points_added = ufo.getPoints();
                     score += points_added;
                     firePropertyChange("score_update", score - points_added, score);
-                    System.out.println("HIT UFO! Points awarded: " + points_added + "   Score: " + score);
+                    //System.out.println("HIT UFO! Points awarded: " + points_added + "   Score: " + score);
                     ufo = null;
                     break;
                 }
@@ -317,7 +317,7 @@ public class GamePanel extends JPanel
             // Player bullet collisions
             if (player.hitByBullet(current)) {
                 lives--;
-                System.out.printf("OUCH! Lives: " + lives + "\n");
+                //System.out.printf("OUCH! Lives: " + lives + "\n");
                 firePropertyChange("lives_update", lives + 1, lives);
                 bullets.clear();
                 break;
@@ -329,7 +329,7 @@ public class GamePanel extends JPanel
                 Bullet possible_crash = bullets.get(j);
                 if (current != possible_crash){
                     if (current.hitByBullet(possible_crash)) {
-                        System.out.println("Bullets crashed!");
+                        //System.out.println("Bullets crashed!");
                         bullets.remove(current);
                         bullets.remove(possible_crash);
                         crash = true;

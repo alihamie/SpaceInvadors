@@ -129,6 +129,7 @@ public class MainMenuPanel extends JPanel {
         add(p,c);
 
 
+        /*
         c.gridx =0;
         c.gridy = 7;
         c.weightx = 0;
@@ -143,6 +144,7 @@ public class MainMenuPanel extends JPanel {
         k.add(options_button);
         options_cursor.setVisible(false);
         add(k,c);
+        */
 
 
         c.gridx =0;
@@ -171,12 +173,15 @@ public class MainMenuPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*
                 if (options_cursor.isVisible()) {
                     self.firePropertyChange("options_selected", false, true);
-                    System.out.printf("Clicked options\n");
-                } else if(start_cursor.isVisible() ){
+                    //System.out.printf("Clicked options\n");
+                } else
+                */
+                if(start_cursor.isVisible() ){
                     self.firePropertyChange("start_game_selected", false, true);
-                    System.out.printf("Clicked start game\n");
+                    //System.out.printf("Clicked start game\n");
                 }
                 else if(exit_cursor.isVisible() ){
                     System.exit(1);
@@ -191,28 +196,29 @@ public class MainMenuPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(visible == 0 )
                     visible++;
-                else if(visible == 1 )
+                /*else if(visible == 1 )
                 {
                     visible++;
-                }
+                }*/
                 else visible = 0;
 
                 if (visible == 0 )
                 {
                     start_cursor.setVisible(true);
-                    options_cursor.setVisible(false);
+                    //options_cursor.setVisible(false);
                     exit_cursor.setVisible(false);
                 }
+                /*
                 else if(visible == 1 )
                 {
                     start_cursor.setVisible(false);
                     options_cursor.setVisible(true);
                     exit_cursor.setVisible(false);
-                }
+                }*/
                 else
                 {
                     start_cursor.setVisible(false);
-                    options_cursor.setVisible(false);
+                    //options_cursor.setVisible(false);
                     exit_cursor.setVisible(true);
                 }
 
@@ -224,29 +230,29 @@ public class MainMenuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(visible == 0 )
-                    visible = 2;
-                else if(visible == 1 )
+                    visible = 1;
+                /*else if(visible == 1 )
                 {
                     visible--;
-                }
+                }*/
                 else visible--;
 
                 if(visible == 0 )
                 {
                     start_cursor.setVisible(true);
-                    options_cursor.setVisible(false);
+                    //options_cursor.setVisible(false);
                     exit_cursor.setVisible(false);
                 }
-                else if(visible == 1 )
+                /*else if(visible == 1 )
                 {
                     start_cursor.setVisible(false);
                     options_cursor.setVisible(true);
                     exit_cursor.setVisible(false);
-                }
+                }*/
                 else
                 {
                     start_cursor.setVisible(false);
-                    options_cursor.setVisible(false);
+                    //options_cursor.setVisible(false);
                     exit_cursor.setVisible(true);
                 }
 

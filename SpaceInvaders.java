@@ -9,6 +9,7 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 
 
@@ -99,7 +100,7 @@ public class SpaceInvaders {
         mainMenu = new MainMenuPanel(50);
         mainMenu.addPropertyChangeListener("start_game_selected", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                System.out.println("Starting Game");
+                //System.out.println("Starting Game");
                 frame.remove(mainMenu);
                 if (game == null) {
                     initGame();
@@ -114,7 +115,7 @@ public class SpaceInvaders {
         });
         mainMenu.addPropertyChangeListener("options_selected", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                System.out.println("Starting Options");
+                //System.out.println("Starting Options");
             }
         });
     }
@@ -124,7 +125,7 @@ public class SpaceInvaders {
         cont = new ContinuePanel(msg);
         cont.addPropertyChangeListener("continue_game_selected", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                System.out.println("Starting Game");
+                //System.out.println("Starting Game");
                 frame.remove(cont);
                 cont = null;
                 frame.add(game, BorderLayout.CENTER);
@@ -139,7 +140,7 @@ public class SpaceInvaders {
 
         cont.addPropertyChangeListener("exit_game_selected", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                System.out.println("exiting Game");
+                //System.out.println("exiting Game");
                 frame.remove(cont);
                 cont = null;
                 initMenu();
@@ -160,8 +161,8 @@ public class SpaceInvaders {
      */
     private static void setMainFont() {
         try {
-            URL input = SpaceInvaders.class.getResource("space_invaders.ttf");
-            FONT = Font.createFont(Font.TRUETYPE_FONT, new File(input.toURI()));
+            InputStream input = SpaceInvaders.class.getResourceAsStream("/space_invaders.ttf");
+            FONT = Font.createFont(Font.TRUETYPE_FONT, input);
         } catch (Exception e) {
             System.err.println("Unable to load font: " + e);
             FONT = new Font("Space Invaders", Font.PLAIN, 16);
